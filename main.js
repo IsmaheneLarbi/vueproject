@@ -4,29 +4,21 @@ const app = new Vue({
 	el: "#myFirstApp",
 	data:
 	{
-		Ismahene:
-		{
+		family:
+		[{
 			fname:"Ismahene",
 			lname:"Larbi",
 			age:24,
 			credit:1e6,
 			job:"data scientist",
 		},
-		Brendon:
 		{
 			fname:"Brendon",
 			lname:"Larbi",
 			age:42,
 			credit:1e9,
 			job:"super hero",
-		},
-	},
-	computed:
-	{
-		getCreditInAYear()
-		{
-			return(this.Ismahene.credit + 1e6);
-		}
+		}],
 	},
 	filters:
 	{
@@ -43,11 +35,30 @@ const app = new Vue({
 			return(`${value.job}`);
 		}
 	},
+	methods:
+	{
+		incrementAge(member)
+		{
+			return (member.age += 1);
+		},
+		decrementAge(member)
+		{
+			return (member.age -= 1);	
+		}
+	},
 	template:
 			`<div>
-				<h1>Hi, Bitch!</h1><br/>
+				<h2>Hi, there!</h2><br/>
 				<h2>Welcome to the matrix :)</h2>
-				<h2>My name is {{Ismahene | getFullName}}, I am a {{Ismahene | getAge}} year old {{Ismahene | getJob}}.</h2>
-				<h2>And I predict that in ONE YEAR, my credit will be {{Ismahene.credit | getCreditInAYear}}!</h2>
+				<h2 v-for="member in family">
+					My name is {{member | getFullName}}, I am a {{member | getAge}} year old {{member | getJob}}.<br/>
+					<div>
+						<h3>Age: {{member | getAge}}</h3>
+						<button v-on:click="incrementAge(member)">+</button>
+						<button v-on:click="decrementAge(member)">-</button><br/>
+					</div>
+					<input v-model="member.fname"/>
+					<input v-model="member.lname"/>
+				</h2>
 			</div>`
 })
